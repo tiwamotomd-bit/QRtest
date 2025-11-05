@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>QRコード読み取り</title>
-  https://unpkg.com/html5-qrcode</script>
-  <style>
+  <script src="https://unpkg.com/html5-qrcode"></e>
     body { font-family: sans-serif; text-align: center; padding: 20px; }
     #reader { width: 300px; margin: auto; }
     #result { margin-top: 20px; font-size: 1.1em; }
@@ -18,7 +17,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      display: none; /* 最初は非表示 */
+      display: none;
     }
     #reload-btn:hover {
       background-color: #0056b3;
@@ -38,10 +37,9 @@
       const url = baseUrl + decodedText;
       document.getElementById('result').innerHTML = `
         ✅ 読み取り成功！<br><br>
-        ${url}${url}</a><br><br>
-        （リンクをタップしてフォームを開く）
+        <a href="${url}" target="_blank">${url}</a><br><br>
       `;
-      document.getElementById('reload-btn').style.display = 'inline-block'; // ボタンを表示
+      document.getElementById('reload-btn').style.display = 'inline-block';
       html5QrCode.stop();
     }
 
