@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>QRコード読み取り</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+<style>
+  body {
+    font-family: sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+
+  #reader {
+    width: 300px;
+    margin: auto;
+  }
+
+  #result {
+    margin-top: 20px;
+    font-size: 1.1em;
+  }
+
+  a { word-break: break-all; }
+
+
+  /* ▼ 超小型スマホ（iPhone SE / Android 小型） */
+  @media screen and (max-width: 360px) {
+    #reader { width: 230px; }
+    #result { font-size: 1em; }
+  }
+
+  /* ▼ 一般的スマホサイズ（iPhone 11/12/13/14/15, Pixel, Galaxy など）*/
+  @media screen and (min-width: 361px) and (max-width: 480px) {
+    #reader { width: 280px; }
+    #result { font-size: 1.1em; }
+  }
+
+  /* ▼ 大画面スマホ / 小型タブレット（幅 481〜767px） */
+  @media screen and (min-width: 481px) and (max-width: 767px) {
+    #reader { width: 320px; }
+    #result { font-size: 1.2em; }
+  }
+
+  /* ▼ タブレット（iPad 含む・幅768px以上） */
+  @media screen and (min-width: 768px) {
+    #reader { width: 400px; }
+    #result { font-size: 1.3em; }
+  }
+</style>
+
+</head>
+<body>
+  <h2>QRコードを読み取ってフォームを開く</h2>
+  <div id="reader"></div>
+  <div id="result">カメラを許可して、QRコードをかざしてください。</div>
+
+  <script>
+    const baseUrl = "https://9cc8ab92.form.kintoneapp.com/public/7d58489548aacc4f9fe99ba47e188b11b97d286cdf412718f0a07d695595e8fe?記入ベンダー=エレコム&";
+
+    function onScanSuccess(decodedText) {
+      const url = baseUrl + decodedText;
+      document.getElementById('result').innerHTML = `
+        ✅ 読み取り成功！<br><br>
+        <a href="${url}" target="_blank">${url}</a><br><br>
+        （リンクをタップしてフォームを開く）
+      `;
+      html5QrCode.stop();
+    }
+
+    const html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start(
+      { facingMode: "environment" },
+      { fps: 10, qrbox: 250 },
+      onScanSuccess
+    ).catch(err => {
+      document.getElementById('result').innerText = "カメラを起動できません: " + err;
+    });
+  </script>
+</body>
+</html>
